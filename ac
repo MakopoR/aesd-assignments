@@ -1,0 +1,28 @@
+[1mdiff --git a/finder-app/finder-test.sh b/finder-app/finder-test.sh[m
+[1mindex fed8ca2..5815036 100755[m
+[1m--- a/finder-app/finder-test.sh[m
+[1m+++ b/finder-app/finder-test.sh[m
+[36m@@ -8,7 +8,7 @@[m [mset -u[m
+ NUMFILES=10[m
+ WRITESTR=AELD_IS_FUN[m
+ WRITEDIR=/tmp/aeld-data[m
+[31m-username=$(cat conf/username.txt)     #file path update to support target rootfs[m
+[32m+[m[32musername=$(cat /conf/username.txt)     #file path update to support target rootfs[m
+ [m
+ if [ $# -lt 3 ][m
+ then[m
+[36m@@ -62,10 +62,12 @@[m [mOUTPUTSTRING=$(./finder.sh "$WRITEDIR" "$WRITESTR")[m
+ # remove temporary directories[m
+ rm -rf /tmp/aeld-data[m
+ [m
+[32m+[m[32mtouch /tmp/assignment4-result.txt[m
+[32m+[m
+ set +e[m
+[31m-echo ${OUTPUTSTRING} | grep "${MATCHSTR}"[m
+[32m+[m[32mecho ${OUTPUTSTRING} | grep "${MATCHSTR}" > /tmp/assignment4-result.txt[m
+ if [ $? -eq 0 ]; then[m
+[31m-	echo "success"[m
+[32m+[m	[32mecho "success" > /tmp/assignment4-result.txt[m
+ 	exit 0[m
+ else[m
+ 	echo "failed: expected  ${MATCHSTR} in ${OUTPUTSTRING} but instead found"[m
