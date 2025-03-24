@@ -1,18 +1,20 @@
-CROSS_COMPILE?=
-FLAGS= -g -Wall -Werror
+CC ?= $(CROSS_COMPILE)gcc
+CUR_PATH=$(dir $(abspath $(MAKEFILE_LIST)))
+CFLAGS ?= -g 
+#-fsanitize=address,leak
+LDLIBS ?= -lm -lpthread -lrt
+#-lfile_manipulate -lsig_func
+SRC=$(wildcard $(CUR_PATH)/*.c)
+OBJS=$(SRC:.c=.o)
 
-default: all
+.PHONY: all aesdsocket clean
+
+.DEFAULT_GOAL: all
 
 all: aesdsocket
 
-aesdsocket: aesdsocket.c
-ifndef CROSS_COMPILE
-	cc -o aesdsocket aesdsocket.c $(CFLAGS) 
-else
-ifeq ($(CROSS_COMPILE), aarch64-none-linux-gnu-)
-	aarch64-none-linux-gnu-gcc -o aesdsocket aesdsocket.c
-endif
-endif
+aesdsocket: $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
+
 clean:
-	rm -f aesdsocket
-	rm -f $(wildcard *.o)
+	$(RM) aesdsocket $(wildcard *.o) 
