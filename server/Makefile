@@ -1,8 +1,8 @@
 CC ?= $(CROSS_COMPILE)gcc
 CUR_PATH=$(dir $(abspath $(MAKEFILE_LIST)))
-CFLAGS ?= -g 
+CFLAGS ?= -g -Wall 
 #-fsanitize=address,leak
-LDLIBS ?= -lm -lpthread -lrt
+LDLIBS ?= -lm -lpthread
 #-lfile_manipulate -lsig_func
 SRC=$(wildcard $(CUR_PATH)/*.c)
 OBJS=$(SRC:.c=.o)
@@ -13,7 +13,8 @@ OBJS=$(SRC:.c=.o)
 
 all: aesdsocket
 
-aesdsocket: $(OBJS)
+aesdsocket: aesdsocket.o
+#$(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
 
 clean:
